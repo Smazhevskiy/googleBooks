@@ -1,10 +1,14 @@
 import React, {FC} from 'react'
 import {Redirect, Route, Switch} from 'react-router-dom'
 import {PATH, Routes} from '../routes/routes'
+import {useTypedSelector} from '../hooks/typedSelector'
+import {Progress} from '../components/Progress/Progress'
 
 
 export const AppRoutes: FC = () => {
+    const {isInitialized} = useTypedSelector(state => state.app)
 
+    if (!isInitialized) return <Progress/>
     return (
         <>
 

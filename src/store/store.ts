@@ -1,10 +1,12 @@
 import {applyMiddleware, combineReducers, createStore} from 'redux'
 import thunk, {ThunkAction} from 'redux-thunk'
 import {booksReducer} from './book-reducer'
+import {appReducer} from './app-reducer'
 
 
 const rootReducer = combineReducers({
-    books: booksReducer
+    books: booksReducer,
+    app: appReducer
 })
 
 export const store = createStore(rootReducer, applyMiddleware(thunk))

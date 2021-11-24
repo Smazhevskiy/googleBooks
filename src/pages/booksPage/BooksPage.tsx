@@ -5,7 +5,6 @@ export const BooksPage: FC = () => {
     return (
         <div className={s.wrapper}>
 
-
         </div>
     )
 }

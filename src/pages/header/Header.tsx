@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react'
 import s from './Header.module.css'
 import searchIcon from '../../assets/icons/search.png'
 import {useDispatch} from 'react-redux'
-import {fetchBooks, setFilter, setOrderBy, setQValueSearch} from '../../bll/book-reducer'
+import {fetchBooks, setFilter, setOrderBy, setQValueSearch} from '../../store/book-reducer'
 import {useTypedSelector} from '../../hooks/typedSelector'
 
 
@@ -13,18 +13,12 @@ export const Header = () => {
     let [qValue, setQValue] = useState<string>('')
     const dispatch = useDispatch()
 
-
     const {
         q,
         filter,
         orderBy,
         key,
-        items
     } = useTypedSelector(state => state.books)
-
-    console.log(filter)
-    console.log(orderBy)
-
 
     const sendHandler = () => {
         dispatch(setQValueSearch(qValue))

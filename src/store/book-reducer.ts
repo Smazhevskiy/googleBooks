@@ -1,5 +1,6 @@
 import {apikey, bookApi, BookResponse, GetBooksQueryParams} from '../api/bookApi'
 import {AppDispatch, RootState} from './store'
+import {setAppInitialized} from './app-reducer'
 
 
 enum PACKS_ACTIONS_TYPES {
@@ -184,6 +185,7 @@ export const setCategories = (categories: 'all' | 'art' | 'biography' | 'compute
 export const fetchBooks = (payload?: GetBooksQueryParams) => async (dispatch: AppDispatch, getState: () => RootState) => {
     const books = getState().books
     try {
+        dispatch(setAppInitialized(false))
         const response = await bookApi.getBooks({
             q: books.q,
             key: books.key || null,
@@ -193,7 +195,7 @@ export const fetchBooks = (payload?: GetBooksQueryParams) => async (dispatch: Ap
     } catch (e) {
         console.log(e)
     } finally {
-        console.log('fetch end')
+        dispatch(setAppInitialized(true))
     }
 }
 

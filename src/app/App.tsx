@@ -3,6 +3,8 @@ import './App.css'
 import {Header} from '../pages/header/Header'
 import libraryImg from '../assets/img/bookImg.jpg'
 import {AppRoutes} from './AppRoutes'
+import {Alerts} from '../components/Alerts/Alerts'
+import {ScrollToTop} from '../components/ScrollToTop/ScrollToTop'
 
 const appStyle = {
     backgroundImage: `url(${libraryImg})`,
@@ -15,8 +17,10 @@ const appStyle = {
 function App() {
     return (
         <div style={appStyle}>
+            <Alerts/>
             <Header/>
             <AppRoutes/>
+            <ScrollToTop/>
         </div>
     )
 }
