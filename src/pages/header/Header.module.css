@@ -33,7 +33,8 @@
 	cursor: pointer;
 	width: 26px;
 }
-.searchIcon:hover {
 
+.searchIcon:hover {
+	width: 28px;
 }
 

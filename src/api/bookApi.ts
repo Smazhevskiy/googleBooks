@@ -4,7 +4,7 @@ export const apikey = 'AIzaSyA1vOYaRAU3dpj48FLXOrHd7u2FhwO5qfE'
 
 export type GetBooksQueryParams = {
     q?: string | null
-    apikey?: string | null
+    key?: string | null
     filter?: string | null
     orderBy?: string | null
 }

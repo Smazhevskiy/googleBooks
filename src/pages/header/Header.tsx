@@ -1,4 +1,4 @@
-import React, {KeyboardEventHandler, useEffect, useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import s from './Header.module.css'
 import searchIcon from '../../assets/icons/search.png'
 import {useDispatch} from 'react-redux'
@@ -6,7 +6,8 @@ import {fetchBooks, setFilter, setOrderBy, setQValueSearch} from '../../bll/book
 import {useTypedSelector} from '../../hooks/typedSelector'
 
 
-const selectCategory = ['all', 'art', 'biography', 'computers', 'history', 'medical', 'poetry']
+const categoryOptions = ['all', 'art', 'biography', 'computers', 'history', 'medical', 'poetry']
+const sortByOptions = ['relevance', 'newest']
 
 export const Header = () => {
     let [qValue, setQValue] = useState<string>('')
@@ -17,24 +18,23 @@ export const Header = () => {
         q,
         filter,
         orderBy,
-        apikey
+        key,
+        items
     } = useTypedSelector(state => state.books)
 
     console.log(filter)
     console.log(orderBy)
 
-    useEffect(() => {
-        dispatch(fetchBooks())
-    }, [dispatch, q, apikey, orderBy, filter])
-
 
     const sendHandler = () => {
         dispatch(setQValueSearch(qValue))
+        setQValue('')
     }
 
     const onKeyPressHandlerInput = (e: any) => {
         if (e.key === 'Enter') {
             dispatch(setQValueSearch(qValue))
+            setQValue('')
         }
     }
 
@@ -47,12 +47,17 @@ export const Header = () => {
     }
 
     const changeCategoryHandler = (e: any) => {
-        dispatch(setFilter(e.target.value))
+        dispatch(setFilter(e.currentTarget.value))
     }
+
+    useEffect(() => {
+        dispatch(fetchBooks())
+    }, [dispatch, q, key, orderBy, filter])
 
 
     return (
         <div className={s.wrapper}>
+
             <h1 style={{color: '#ccc'}}>Search for books</h1>
 
             <div className={s.searchBox}>
@@ -74,13 +79,12 @@ export const Header = () => {
             <div className={s.optionsBox}>
                 <span style={{margin: '0px 10px'}}>categories</span>
                 <select onChange={changeCategoryHandler} id={'category'} name="categories">
-                    {selectCategory.map((category, index) => <option key={index} value={category}>{category}</option>)}
+                    {categoryOptions.map((category, index) => <option key={index} value={category}>{category}</option>)}
                 </select>
 
                 <span style={{margin: '0px 10px'}}>sorting by</span>
                 <select onChange={changeSortHandler} name="sortBy">
-                    <option value="relevance ">relevance</option>
-                    <option value="newest ">newest</option>
+                    {sortByOptions.map((sortBy, index) => <option key={index} value={sortBy}>{sortBy}</option>)}
                 </select>
             </div>
         </div>
