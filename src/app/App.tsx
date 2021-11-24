@@ -1,20 +1,22 @@
 import React from 'react'
 import './App.css'
-import {Header} from './pages/Header'
-import libraryImg from '../src/assets/img/bookImg.jpg'
+import {Header} from '../pages/header/Header'
+import libraryImg from '../assets/img/bookImg.jpg'
+import {AppRoutes} from './AppRoutes'
 
 const appStyle = {
     backgroundImage: `url(${libraryImg})`,
     height: '100vh',
     opacity: '0.9',
-    backgroundSize:'cover',
-    backgroundAttachment:'fixed'
+    backgroundSize: 'cover',
+    backgroundAttachment: 'fixed'
 }
 
 function App() {
     return (
         <div style={appStyle}>
             <Header/>
+            <AppRoutes/>
         </div>
     )
 }

@@ -1,0 +1,18 @@
+.wrapper {
+	height: 500px;
+	width: 320px;
+	background: #afafa8;
+	margin: 20px 40px;
+}
+
+.descriptionsBlock{
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	margin: 10px 0 0 15px;
+
+}
+
+.bookImg img {
+	width: 100%
+}
