@@ -1,0 +1,39 @@
+.wrapper {
+	width: 100%;
+	min-height: 30vh;
+	font-size: 18px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+
+}
+
+.searchBox {
+	position: relative;
+	z-index: 1;
+}
+
+.searchBox input {
+	width: 360px;
+	padding: 10px 50px 10px 25px;
+	border-radius: 5px;
+	border: 1px solid #ccc;
+	outline: none;
+	margin: 20px 0;
+	font-size: 1.2rem;
+}
+
+
+.searchIcon {
+	position: absolute;
+	z-index: 2;
+	right: 14px;
+	top: 33px;
+	cursor: pointer;
+	width: 26px;
+}
+.searchIcon:hover {
+
+}
+
