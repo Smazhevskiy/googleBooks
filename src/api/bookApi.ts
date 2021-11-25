@@ -1,4 +1,5 @@
 import axios from 'axios'
+import {ItemsType} from '../store/book-reducer'
 
 export const apikey = 'AIzaSyA1vOYaRAU3dpj48FLXOrHd7u2FhwO5qfE'
 
@@ -11,7 +12,7 @@ export type GetBooksQueryParams = {
 
 export type BookResponse = {
     kind: string,
-    items: any [],
+    items: ItemsType
     totalItems: number,
 }
 

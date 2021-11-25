@@ -3,6 +3,7 @@ import {BooksPage} from '../pages/booksPage/BooksPage'
 import {Book} from '../pages/book/Book'
 import {ErrorPage} from '../pages/error/ErrorPage'
 
+
 export enum PATH {
     BOOKSPAGE = '/',
     BOOK = '/books/:id?',

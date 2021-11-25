@@ -4,7 +4,6 @@ import searchIcon from '../../assets/icons/search.png'
 import {useDispatch} from 'react-redux'
 import {fetchBooks, setFilter, setOrderBy, setQValueSearch} from '../../store/book-reducer'
 import {useTypedSelector} from '../../hooks/typedSelector'
-import {PreviewBook} from '../previewBook/PreviewBook'
 import {setAppInfo} from '../../store/app-reducer'
 
 
@@ -19,18 +18,19 @@ export const Header = () => {
         q,
         filter,
         orderBy,
-        key,
-        totalItems,
-        items
+        totalItems
     } = useTypedSelector(state => state.books)
 
 
     useEffect(() => {
         if (q) dispatch(fetchBooks())
-    }, [dispatch, q, key, orderBy, filter])
+    }, [dispatch, q, orderBy, filter])
 
 
     const sendHandler = () => {
+        if (!qValue) {
+            dispatch(setAppInfo('Введите данные для поиска'))
+        }
         dispatch(setQValueSearch(qValue))
     }
 
@@ -75,7 +75,7 @@ export const Header = () => {
             </div>
 
             <div className={s.optionsBox}>
-
+                {totalItems > 0 && <h3 className={s.totalItems}>Found {totalItems} results </h3>}
                 <span style={{margin: '0px 10px'}}>categories</span>
                 <select onChange={changeCategoryHandler} id={'category'} name="categories">
                     {categoryOptions.map((category, index) => <option key={index} value={category}>{category}</option>)}
@@ -85,20 +85,6 @@ export const Header = () => {
                 <select onChange={changeSortHandler} name="sortBy">
                     {sortByOptions.map((sortBy, index) => <option key={index} value={sortBy}>{sortBy}</option>)}
                 </select>
-
-                {totalItems > 0 && <h3 className={s.totalItems}>Found {totalItems} results </h3>}
-
-                <div className={s.aaaa}>
-                    {items && items.map((el: any) => {
-                        return <PreviewBook
-                            key={el.id}
-                            image={el.volumeInfo.imageLinks.thumbnail}
-                            category={el.volumeInfo.categories}
-                            title={el.volumeInfo.title}
-                            author={el.volumeInfo.authors}
-                        />
-                    })}
-                </div>
             </div>
         </div>
     )

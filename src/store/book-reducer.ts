@@ -1,6 +1,6 @@
 import {bookApi, BookResponse, GetBooksQueryParams} from '../api/bookApi'
 import {AppDispatch, RootState} from './store'
-import {setAppIsLoading} from './app-reducer'
+import {setAppInfo, setAppIsLoading} from './app-reducer'
 import {errorsHandler} from '../utils/errors'
 
 
@@ -21,21 +21,46 @@ export type BooksActionsTypes =
     | ReturnType<typeof setCategories>
 
 
-export type BooksInitialState = {
+export type ItemsType = [{
+    id: string
+    volumeInfo: {
+        authors: string []
+        categories: string [],
+        imageLinks: {
+            smallThumbnail: string | null | undefined,
+            thumbnail?: string | null | undefined
+        },
+        title?: string,
+    }
+}]
+
+export type BooksInitialStateType = {
     kind: string
     totalItems: number
-    items: any []
-    q: string | null
+    items: ItemsType
+    q: string
     key: string
     filter: string
     orderBy: string
     categories: string
 }
 
-export const initialState: BooksInitialState = {
+export const initialState: BooksInitialStateType = {
     kind: 'some',
     totalItems: 0,
-    items: [],
+    items: [{
+        id: '1',
+        volumeInfo: {
+            imageLinks: {
+                smallThumbnail: '',
+                thumbnail: '',
+            },
+            categories: [],
+            authors: [],
+            title: ''
+
+        }
+    }],
     q: '',
     key: 'AIzaSyA1vOYaRAU3dpj48FLXOrHd7u2FhwO5qfE',
     filter: 'full',
@@ -44,7 +69,7 @@ export const initialState: BooksInitialState = {
 }
 
 
-export const booksReducer = (state: BooksInitialState = initialState, action: BooksActionsTypes): BooksInitialState => {
+export const booksReducer = (state: BooksInitialStateType = initialState, action: BooksActionsTypes): BooksInitialStateType => {
     switch (action.type) {
         case PACKS_ACTIONS_TYPES.SET_BOOKS:
             return {...state, ...action.payload}
@@ -54,9 +79,9 @@ export const booksReducer = (state: BooksInitialState = initialState, action: Bo
             return {...state, filter: action.filter}
         case PACKS_ACTIONS_TYPES.SET_ORDER_BY:
             return {...state, orderBy: action.orderBy}
-        case PACKS_ACTIONS_TYPES.SET_CATEGORIES:
-            return {...state, items: state.items.filter((el) => el.volumeInfo.categories[0] === action.categories)}
-
+        // case PACKS_ACTIONS_TYPES.SET_CATEGORIES:
+        // return {...state, items:state.items.filter(el=> el.volumeInfo.authors.join(', ') === action.categories)}
+            // items: state.items.filter((el) => el.volumeInfo.categories[0] === action.categories)
 
         default:
             return state
@@ -101,6 +126,7 @@ export const fetchBooks = (payload?: GetBooksQueryParams) => async (dispatch: Ap
             key: books.key || null,
             orderBy: books.orderBy
         })
+        if (!response.data.totalItems) dispatch(setAppInfo('not found anything'))
         dispatch(setBooks(response.data))
     } catch (e) {
         errorsHandler(e, dispatch)

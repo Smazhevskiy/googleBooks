@@ -24,8 +24,8 @@ export const PreviewBook = (props: PreviewBookType) => {
 
     return (
         <>
-            <div style={{cursor:'pointer'}} onClick={clickOnBook} className={s.wrapper}>
-                <div><img src={image} alt={`image${title}`}/></div>
+            <div style={{cursor: 'pointer'}} onClick={clickOnBook} className={s.wrapper}>
+                <div><img src={image} alt={title ? title : 'img'}/></div>
                 <div className={s.descriptionsBlock}>
                     <div className={s.category}>{category}</div>
                     <div className={s.title}>{title}</div>
