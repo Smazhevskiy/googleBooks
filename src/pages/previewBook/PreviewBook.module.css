@@ -1,18 +1,20 @@
 .wrapper {
-	height: 500px;
 	width: 320px;
-	background: #afafa8;
-	margin: 20px 40px;
+	box-sizing: border-box;
+	padding: 20px 20px 15px;
+	background-color: #cfd3d5;
+	margin: 20px auto;
 }
 
-.descriptionsBlock{
+.wrapper div {
+	padding: 3px;
+}
+
+.descriptionsBlock {
 	display: flex;
 	flex-direction: column;
 	align-items: flex-start;
-	margin: 10px 0 0 15px;
-
+	margin-left: 15px;
+	text-align: left;
 }
 
-.bookImg img {
-	width: 100%
-}

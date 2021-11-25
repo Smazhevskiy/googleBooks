@@ -6,7 +6,7 @@
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
-
+	text-align: center;
 }
 
 .searchBox {
@@ -38,3 +38,14 @@
 	width: 28px;
 }
 
+.totalItems {
+	color: #3d3939;
+	padding: 10px 0;
+}
+
+.aaaa {
+	background-color: #dee0e7;
+	display:flex;
+	flex-wrap: wrap;
+	margin: 0 auto;
+}

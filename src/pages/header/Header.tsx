@@ -4,10 +4,12 @@ import searchIcon from '../../assets/icons/search.png'
 import {useDispatch} from 'react-redux'
 import {fetchBooks, setFilter, setOrderBy, setQValueSearch} from '../../store/book-reducer'
 import {useTypedSelector} from '../../hooks/typedSelector'
+import {PreviewBook} from '../previewBook/PreviewBook'
+import {setAppInfo} from '../../store/app-reducer'
 
 
-const categoryOptions = ['all', 'art', 'biography', 'computers', 'history', 'medical', 'poetry']
-const sortByOptions = ['relevance', 'newest']
+export const categoryOptions = ['all', 'art', 'biography', 'computers', 'history', 'medical', 'poetry']
+export const sortByOptions = ['relevance', 'newest']
 
 export const Header = () => {
     let [qValue, setQValue] = useState<string>('')
@@ -18,17 +20,23 @@ export const Header = () => {
         filter,
         orderBy,
         key,
+        totalItems,
+        items
     } = useTypedSelector(state => state.books)
+
+
+    useEffect(() => {
+        if (q) dispatch(fetchBooks())
+    }, [dispatch, q, key, orderBy, filter])
+
 
     const sendHandler = () => {
         dispatch(setQValueSearch(qValue))
-        setQValue('')
     }
 
     const onKeyPressHandlerInput = (e: any) => {
         if (e.key === 'Enter') {
             dispatch(setQValueSearch(qValue))
-            setQValue('')
         }
     }
 
@@ -37,21 +45,17 @@ export const Header = () => {
     }
 
     const changeSortHandler = (e: any) => {
-        dispatch(setOrderBy(e.target.value))
+        dispatch(setAppInfo(`Sorting by ${e.currentTarget.value}`))
+        dispatch(setOrderBy(e.currentTarget.value))
     }
 
     const changeCategoryHandler = (e: any) => {
+        dispatch(setAppInfo(`Filtered by ${e.currentTarget.value}`))
         dispatch(setFilter(e.currentTarget.value))
     }
 
-    useEffect(() => {
-        dispatch(fetchBooks())
-    }, [dispatch, q, key, orderBy, filter])
-
-
     return (
         <div className={s.wrapper}>
-
             <h1 style={{color: '#ccc'}}>Search for books</h1>
 
             <div className={s.searchBox}>
@@ -71,6 +75,7 @@ export const Header = () => {
             </div>
 
             <div className={s.optionsBox}>
+
                 <span style={{margin: '0px 10px'}}>categories</span>
                 <select onChange={changeCategoryHandler} id={'category'} name="categories">
                     {categoryOptions.map((category, index) => <option key={index} value={category}>{category}</option>)}
@@ -80,6 +85,20 @@ export const Header = () => {
                 <select onChange={changeSortHandler} name="sortBy">
                     {sortByOptions.map((sortBy, index) => <option key={index} value={sortBy}>{sortBy}</option>)}
                 </select>
+
+                {totalItems > 0 && <h3 className={s.totalItems}>Found {totalItems} results </h3>}
+
+                <div className={s.aaaa}>
+                    {items && items.map((el: any) => {
+                        return <PreviewBook
+                            key={el.id}
+                            image={el.volumeInfo.imageLinks.thumbnail}
+                            category={el.volumeInfo.categories}
+                            title={el.volumeInfo.title}
+                            author={el.volumeInfo.authors}
+                        />
+                    })}
+                </div>
             </div>
         </div>
     )

@@ -1,11 +1,13 @@
 import React from 'react'
 
+type BookProps = {
+
+}
+
 export const Book = () => {
     return (
         <div>
-            BOOK
-            IMAGE
-            SUMMARY
+           <div></div>
         </div>
     )
 }

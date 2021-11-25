@@ -11,45 +11,9 @@ export type GetBooksQueryParams = {
 
 export type BookResponse = {
     kind: string,
+    items: any [],
     totalItems: number,
-    items: {
-        kind: string,
-        id: string,
-        etag: string,
-        selfLink: string,
-        volumeInfo: {
-            title: string,
-            subtitle: string,
-            authors: string [],
-            publisher: string,
-            publishedDate: any,
-            description: string,
-            industryIdentifiers: any,
-            readingModes: any,
-            pageCount: number,
-            printType: string,
-            categories: string [],
-            maturityRating: string,
-            allowAnonLogging: boolean,
-            contentVersion: any,
-            panelizationSummary: {},
-            imageLinks: {
-                smallThumbnail: string,
-                thumbnail: string
-            },
-            language: string,
-            previewLink: string,
-            infoLink: string,
-            canonicalVolumeLink: string
-        },
-        saleInfo: any,
-        accessInfo: any,
-        searchInfo: {
-            textSnippet: string
-        }
-    }
 }
-
 
 export const bookApi = {
     getBooks: (payload: GetBooksQueryParams) => axios.get<BookResponse>('https://www.googleapis.com/books/v1/volumes?', {params: payload})

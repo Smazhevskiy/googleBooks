@@ -1,30 +1,31 @@
 .scrollButton {
-    position: fixed;
-    bottom: 24px;
-    right: 24px;
-    padding-top: 28px;
-    transition: all .3s ease-out;
-    background: none;
-    font-size: 24px;
-    color: #ffffff;
-
+	position: fixed;
+	bottom: 24px;
+	right: 24px;
+	padding-top: 28px;
+	transition: all .3s ease-out;
+	background: none;
+	font-size: 24px;
+	color: #2d5d73;
+	cursor: pointer;
+	border: none;
 }
 
 .scrollButton:before {
-    content: 'ᐱ';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    margin: auto;
-    transition: transform .5s ease-in;
+	content: 'ᐱ';
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	margin: auto;
+	transition: transform .3s ease-in;
 }
 
 .scrollButton:hover {
-    color: #3f90de;
-    font-size: 28px;
+	color: #3f90de;
+	font-size: 28px;
 }
 
 .scrollButton:hover:before {
-    transform: rotate(360deg);
+	transform: rotate(360deg);
 }

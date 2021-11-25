@@ -1,6 +1,7 @@
-import {apikey, bookApi, BookResponse, GetBooksQueryParams} from '../api/bookApi'
+import {bookApi, BookResponse, GetBooksQueryParams} from '../api/bookApi'
 import {AppDispatch, RootState} from './store'
-import {setAppInitialized} from './app-reducer'
+import {setAppIsLoading} from './app-reducer'
+import {errorsHandler} from '../utils/errors'
 
 
 enum PACKS_ACTIONS_TYPES {
@@ -8,7 +9,8 @@ enum PACKS_ACTIONS_TYPES {
     SET_Q_VALUE = 'BOOKS/SET_Q_VALUE',
     SET_FILTER = 'BOOKS/SET_FILTER',
     SET_ORDER_BY = 'BOOKS/SET_ORDER_BY',
-    SET_CATEGORIES = 'SET_CATEGORIES'
+    SET_CATEGORIES = 'SET_CATEGORIES',
+
 }
 
 export type BooksActionsTypes =
@@ -18,7 +20,11 @@ export type BooksActionsTypes =
     | ReturnType<typeof setOrderBy>
     | ReturnType<typeof setCategories>
 
-export type BooksInitialState = BookResponse & {
+
+export type BooksInitialState = {
+    kind: string
+    totalItems: number
+    items: any []
     q: string | null
     key: string
     filter: string
@@ -28,107 +34,9 @@ export type BooksInitialState = BookResponse & {
 
 export const initialState: BooksInitialState = {
     kind: 'some',
-    totalItems: 10,
-    items: {
-        'kind': 'books#volume',
-        'id': 'BlQ-EAAAQBAJ',
-        'etag': 'sokZfJtNwk8',
-        'selfLink': 'https://www.googleapis.com/books/v1/volumes/BlQ-EAAAQBAJ',
-        'volumeInfo': {
-            'title': 'Political Dissent and Democratic Remittances',
-            'subtitle': 'The Activities of Russian Migrants in Europe',
-            'authors': [
-                'Joanna Fomina'
-            ],
-            'publisher': 'Routledge',
-            'publishedDate': '2021-10-25',
-            'description': 'With a focus on the most recent wave of political emigration from Russ',
-            'industryIdentifiers': [
-                {
-                    'type': 'ISBN_13',
-                    'identifier': '9781000479669'
-                },
-                {
-                    'type': 'ISBN_10',
-                    'identifier': '1000479668'
-                }
-            ],
-            'readingModes': {
-                'text': true,
-                'image': true
-            },
-            'pageCount': 240,
-            'printType': 'BOOK',
-            'categories': [
-                'Social Science'
-            ],
-            'maturityRating': 'NOT_MATURE',
-            'allowAnonLogging': false,
-            'contentVersion': '0.1.1.0.preview.3',
-            'panelizationSummary': {
-                'containsEpubBubbles': false,
-                'containsImageBubbles': false
-            },
-            'imageLinks': {
-                'smallThumbnail': 'http://books.google.com/books/content?id=BlQ-EAAAQBAJ&printsec=frontcover&img=1&zoom=5&edge=curl&source=gbs_api',
-                'thumbnail': 'http://books.google.com/books/content?id=BlQ-EAAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api'
-            },
-            'language': 'en',
-            'previewLink': 'http://books.google.fr/books?id=BlQ-EAAAQBAJ&pg=PP1&dq=russian&hl=&as_brr=6&cd=1&source=gbs_api',
-            'infoLink': 'https://play.google.com/store/books/details?id=BlQ-EAAAQBAJ&source=gbs_api',
-            'canonicalVolumeLink': 'https://play.google.com/store/books/details?id=BlQ-EAAAQBAJ'
-        },
-        'saleInfo': {
-            'country': 'FR',
-            'saleability': 'FOR_SALE',
-            'isEbook': true,
-            'listPrice': {
-                'amount': 39.02,
-                'currencyCode': 'EUR'
-            },
-            'retailPrice': {
-                'amount': 28.05,
-                'currencyCode': 'EUR'
-            },
-            'buyLink': 'https://play.google.com/store/books/details?id=BlQ-EAAAQBAJ&rdid=book-BlQ-EAAAQBAJ&rdot=1&source=gbs_api',
-            'offers': [
-                {
-                    'finskyOfferType': 1,
-                    'listPrice': {
-                        'amountInMicros': 39020000,
-                        'currencyCode': 'EUR'
-                    },
-                    'retailPrice': {
-                        'amountInMicros': 28050000,
-                        'currencyCode': 'EUR'
-                    },
-                    'giftable': true
-                }
-            ]
-        },
-        'accessInfo': {
-            'country': 'FR',
-            'viewability': 'PARTIAL',
-            'embeddable': true,
-            'publicDomain': false,
-            'textToSpeechPermission': 'ALLOWED',
-            'epub': {
-                'isAvailable': true,
-                'acsTokenLink': 'http://books.google.fr/books/download/Political_Dissent_and_Democratic_Remitta-sample-epub.acsm?id=BlQ-EAAAQBAJ&format=epub&output=acs4_fulfillment_token&dl_type=sample&source=gbs_api'
-            },
-            'pdf': {
-                'isAvailable': true,
-                'acsTokenLink': 'http://books.google.fr/books/download/Political_Dissent_and_Democratic_Remitta-sample-pdf.acsm?id=BlQ-EAAAQBAJ&format=pdf&output=acs4_fulfillment_token&dl_type=sample&source=gbs_api'
-            },
-            'webReaderLink': 'http://play.google.com/books/reader?id=BlQ-EAAAQBAJ&hl=&as_brr=6&printsec=frontcover&source=gbs_api',
-            'accessViewStatus': 'SAMPLE',
-            'quoteSharingAllowed': false
-        },
-        'searchInfo': {
-            'textSnippet': 'With a focus on the most recent wave of political emigration from Russia unleashed during President Vladimir Putin’s third term, this book explores the activities of those who voice political dissent after leaving their country.'
-        }
-    },
-    q: 'js',
+    totalItems: 0,
+    items: [],
+    q: '',
     key: 'AIzaSyA1vOYaRAU3dpj48FLXOrHd7u2FhwO5qfE',
     filter: 'full',
     orderBy: 'relevance',
@@ -146,6 +54,8 @@ export const booksReducer = (state: BooksInitialState = initialState, action: Bo
             return {...state, filter: action.filter}
         case PACKS_ACTIONS_TYPES.SET_ORDER_BY:
             return {...state, orderBy: action.orderBy}
+        case PACKS_ACTIONS_TYPES.SET_CATEGORIES:
+            return {...state, items: state.items.filter((el) => el.volumeInfo.categories[0] === action.categories)}
 
 
         default:
@@ -165,17 +75,17 @@ export const setQValueSearch = (q: string) => ({
     q
 } as const)
 
-export const setFilter = (filterBooks: 'free-ebooks' | 'paid-ebooks' | 'full' | 'partial' | 'ebooks') => ({
+export const setFilter = (filterBooks: string) => ({
     type: PACKS_ACTIONS_TYPES.SET_FILTER,
     filter: filterBooks
 } as const)
 
-export const setOrderBy = (orderBy: 'relevance' | 'newest') => ({
+export const setOrderBy = (orderBy: string) => ({
     type: PACKS_ACTIONS_TYPES.SET_ORDER_BY,
     orderBy
 } as const)
 
-export const setCategories = (categories: 'all' | 'art' | 'biography' | 'computers' | 'history' | 'medical' | 'poetry') => ({
+export const setCategories = (categories: string) => ({
     type: PACKS_ACTIONS_TYPES.SET_CATEGORIES,
     categories
 } as const)
@@ -185,7 +95,7 @@ export const setCategories = (categories: 'all' | 'art' | 'biography' | 'compute
 export const fetchBooks = (payload?: GetBooksQueryParams) => async (dispatch: AppDispatch, getState: () => RootState) => {
     const books = getState().books
     try {
-        dispatch(setAppInitialized(false))
+        dispatch(setAppIsLoading(true))
         const response = await bookApi.getBooks({
             q: books.q,
             key: books.key || null,
@@ -193,9 +103,9 @@ export const fetchBooks = (payload?: GetBooksQueryParams) => async (dispatch: Ap
         })
         dispatch(setBooks(response.data))
     } catch (e) {
-        console.log(e)
+        errorsHandler(e, dispatch)
     } finally {
-        dispatch(setAppInitialized(true))
+        dispatch(setAppIsLoading(false))
     }
 }
 

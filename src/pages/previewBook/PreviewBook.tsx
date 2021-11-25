@@ -1,5 +1,6 @@
 import React from 'react'
 import s from './PreviewBook.module.css'
+import {PATH} from '../../routes/routesType'
 
 
 type PreviewBookType = {
@@ -17,14 +18,20 @@ export const PreviewBook = (props: PreviewBookType) => {
         author
     } = props
 
+    const clickOnBook = () => {
+        return PATH.BOOK
+    }
+
     return (
-        <div className={s.wrapper}>
-            <div className={s.bookImg}><img src={image} alt="book"/></div>
-            <div className={s.descriptionsBlock}>
-                <div className={s.category}>{category}</div>
-                <div className={s.title}>{title}</div>
-                <div className={s.author}>{author}</div>
+        <>
+            <div style={{cursor:'pointer'}} onClick={clickOnBook} className={s.wrapper}>
+                <div><img src={image} alt={`image${title}`}/></div>
+                <div className={s.descriptionsBlock}>
+                    <div className={s.category}>{category}</div>
+                    <div className={s.title}>{title}</div>
+                    <div className={s.author}>{author}</div>
+                </div>
             </div>
-        </div>
+        </>
     )
 }
