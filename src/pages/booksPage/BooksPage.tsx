@@ -10,13 +10,13 @@ export const BooksPage: FC = () => {
     let {
         items,
         q,
-        startIndex
+        startIndex,
+        totalItems
     } = useTypedSelector(state => state.books)
 
     const nextPagesHandler = () => {
         dispatch(setStartPaginationIndex(startIndex + 30))
     }
-
 
     return (
         <div className={s.wrapper}>
@@ -32,21 +32,12 @@ export const BooksPage: FC = () => {
                     />
                 })}
             </div>
+            {totalItems &&
             <button
-                style={{
-                    padding: '8px',
-                    marginLeft: '10%',
-                    background: '#eae3e3',
-                    color: '#225b83',
-                    textDecoration: 'none',
-                    display: 'block',
-                    width: '120px',
-                    textAlign: 'center',
-                    margin: '10px auto',
-                }}
                 onClick={nextPagesHandler}
+                disabled={totalItems < startIndex + 30}
             >Load more
-            </button>
+            </button>}
         </div>
     )
 }

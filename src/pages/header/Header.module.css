@@ -21,9 +21,13 @@
 }
 
 .optionsBox select {
-	font-size: 1.2rem;
-	padding: 2px;
-	border: none;
+	width: 120px;
+	height: 30px;
+	border: 1px solid #999;
+	font-size: 18px;
+	color: #204862;
+	background-color: #eee;
+	border-radius: 5px;
 }
 
 .searchBox input {

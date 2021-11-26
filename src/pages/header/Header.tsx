@@ -5,6 +5,7 @@ import {useDispatch} from 'react-redux'
 import {fetchBooks, setFilter, setOrderBy, setQValueSearch} from '../../store/book-reducer'
 import {useTypedSelector} from '../../hooks/typedSelector'
 import {setAppInfo} from '../../store/app-reducer'
+import {Select} from '../../components/Select/Select'
 
 
 export const categoryOptions = ['all', 'art', 'biography', 'computers', 'history', 'medical', 'poetry']
@@ -45,14 +46,15 @@ export const Header = () => {
         setQValue(e.currentTarget.value)
     }
 
-    const changeSortHandler = (e: any) => {
-        dispatch(setAppInfo(`Sorting by ${e.currentTarget.value}`))
-        dispatch(setOrderBy(e.currentTarget.value))
+    const changeSortHandler = (option: string) => {
+        dispatch(setOrderBy(String(option)))
+        dispatch(setAppInfo(String(`Sort by ${option}`)))
     }
 
-    const changeCategoryHandler = (e: any) => {
-        dispatch(setAppInfo(`Filtered by ${e.currentTarget.value}`))
-        dispatch(setFilter(e.currentTarget.value))
+    const changeCategoryHandler = (option: string) => {
+        dispatch(setFilter(String(option)))
+        dispatch(setAppInfo(String(`Filtered by ${option}`)))
+
     }
 
     return (
@@ -78,14 +80,10 @@ export const Header = () => {
             <div className={s.optionsBox}>
                 {totalItems > 0 && <h3 className={s.totalItems}>Found {totalItems} results </h3>}
                 <span style={{margin: '0px 10px'}}>categories</span>
-                <select onChange={changeCategoryHandler} id={'category'} name="categories">
-                    {categoryOptions.map((category, index) => <option key={index} value={category}>{category}</option>)}
-                </select>
+                <Select options={categoryOptions} onChangeOption={changeCategoryHandler}/>
 
                 <span style={{margin: '0px 10px'}}>sorting by</span>
-                <select onChange={changeSortHandler} name="sortBy">
-                    {sortByOptions.map((sortBy, index) => <option key={index} value={sortBy}>{sortBy}</option>)}
-                </select>
+                <Select options={sortByOptions} onChangeOption={changeSortHandler}/>
             </div>
         </div>
     )
