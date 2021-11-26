@@ -5,7 +5,6 @@ import {useTypedSelector} from '../../hooks/typedSelector'
 import {PATH} from '../../routes/routesType'
 
 
-
 export const Book = () => {
     let {items} = useTypedSelector(state => state.books)
     const {id} = useParams<{ id: string }>()

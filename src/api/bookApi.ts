@@ -9,6 +9,8 @@ export type GetBooksQueryParams = {
     filter?: string | null
     orderBy?: string | null
     id?:string
+    maxResults?:number
+    startIndex?:number
 }
 
 export type BookResponse = {

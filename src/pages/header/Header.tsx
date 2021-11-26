@@ -18,13 +18,14 @@ export const Header = () => {
         q,
         filter,
         orderBy,
-        totalItems
+        totalItems,
+        startIndex
     } = useTypedSelector(state => state.books)
 
 
     useEffect(() => {
         if (q) dispatch(fetchBooks())
-    }, [dispatch, q, orderBy, filter])
+    }, [dispatch, q, orderBy, filter, startIndex])
 
 
     const sendHandler = () => {

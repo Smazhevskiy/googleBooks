@@ -25,7 +25,9 @@ export const PreviewBook = (props: PreviewBookType) => {
     return (
         <>
             <div className={s.wrapper}>
-                <div><img src={image} alt={title ? title : 'img'}/></div>
+                <div>
+                    <img src={image} alt={title ? title : 'img'}/>
+                </div>
                 <div className={s.descriptionsBlock}>
                     <div className={s.category}>{category}</div>
                     <div className={s.title}>{title}</div>

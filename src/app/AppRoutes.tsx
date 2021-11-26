@@ -7,6 +7,7 @@ import {Progress} from '../components/Progress/Progress'
 
 export const AppRoutes = () => {
     const {isLoading} = useTypedSelector(state => state.app)
+    
     if (isLoading) return <Progress/>
 
     return (

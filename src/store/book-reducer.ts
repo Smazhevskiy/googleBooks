@@ -1,6 +1,6 @@
 import {bookApi, BookResponse, GetBooksQueryParams} from '../api/bookApi'
 import {AppDispatch, RootState} from './store'
-import {setAppInfo, setAppIsLoading} from './app-reducer'
+import {setAppError, setAppInfo, setAppIsLoading} from './app-reducer'
 import {errorsHandler} from '../utils/errors'
 
 
@@ -10,6 +10,7 @@ enum PACKS_ACTIONS_TYPES {
     SET_FILTER = 'BOOKS/SET_FILTER',
     SET_ORDER_BY = 'BOOKS/SET_ORDER_BY',
     SET_CATEGORIES = 'BOOK/SET_CATEGORIES',
+    SET_START_PAGINATION_INDEX = 'SET_START_PAGINATION_INDEX'
 }
 
 export type BooksActionsTypes =
@@ -18,7 +19,7 @@ export type BooksActionsTypes =
     | ReturnType<typeof setFilter>
     | ReturnType<typeof setOrderBy>
     | ReturnType<typeof setCategories>
-
+    | ReturnType<typeof setStartPaginationIndex>
 
 
 export type ItemsType = [{
@@ -28,9 +29,9 @@ export type ItemsType = [{
         categories: string [],
         imageLinks: {
             smallThumbnail?: string | undefined,
-            thumbnail?: string |  undefined
-            medium?: string |  undefined
-            large?: string |  undefined
+            thumbnail?: string | undefined
+            medium?: string | undefined
+            large?: string | undefined
         },
         title?: string,
     }
@@ -45,6 +46,8 @@ export type BooksInitialStateType = {
     filter: string
     orderBy: string
     categories: string
+    maxResults: number
+    startIndex: number
 }
 
 export const initialState: BooksInitialStateType = {
@@ -70,6 +73,8 @@ export const initialState: BooksInitialStateType = {
     filter: 'full',
     orderBy: 'relevance',
     categories: 'all',
+    maxResults: 30,
+    startIndex: 0,
 }
 
 
@@ -83,9 +88,8 @@ export const booksReducer = (state: BooksInitialStateType = initialState, action
             return {...state, filter: action.filter}
         case PACKS_ACTIONS_TYPES.SET_ORDER_BY:
             return {...state, orderBy: action.orderBy}
-//TODO
-        // case PACKS_ACTIONS_TYPES.SET_CATEGORIES:
-        // return {...state, items:state.items.filter(el=> el.volumeInfo.authors.join(', ') === action.categories)}
+        case PACKS_ACTIONS_TYPES.SET_START_PAGINATION_INDEX:
+            return {...state, startIndex: action.index}
         // items: state.items.filter((el) => el.volumeInfo.categories[0] === action.categories)
 
         default:
@@ -120,6 +124,10 @@ export const setCategories = (categories: string) => ({
     categories
 } as const)
 
+export const setStartPaginationIndex = (index: number) => ({
+    type: PACKS_ACTIONS_TYPES.SET_START_PAGINATION_INDEX,
+    index
+} as const)
 
 
 //THUNKS
@@ -129,13 +137,16 @@ export const fetchBooks = (payload?: GetBooksQueryParams) => async (dispatch: Ap
         dispatch(setAppIsLoading(true))
         const response = await bookApi.getBooks({
             q: books.q,
-            // key: books.key || null,
+            key: books.key || null,
             orderBy: books.orderBy,
+            maxResults: 30,
+            startIndex: books.startIndex
         })
-        if (!response.data.totalItems) dispatch(setAppInfo('not found anything'))
+        if (!response.data.totalItems) dispatch(setAppInfo('ничего не найдено'))
         dispatch(setBooks(response.data))
     } catch (e) {
         errorsHandler(e, dispatch)
+        dispatch(setAppError('ошибка запроса'))
     } finally {
         dispatch(setAppIsLoading(false))
     }
