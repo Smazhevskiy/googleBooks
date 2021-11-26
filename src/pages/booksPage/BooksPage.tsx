@@ -12,7 +12,6 @@ export const BooksPage: FC = () => {
 
     return (
         <div className={s.wrapper}>
-
             {q && items.map((el: ItemsType | any) => {
                 return <PreviewBook
                     key={el.id}
@@ -20,7 +19,9 @@ export const BooksPage: FC = () => {
                     category={el.volumeInfo.categories}
                     title={el.volumeInfo.title}
                     author={el.volumeInfo.authors}
+                    id={el.id}
                 />
+
             })}
         </div>
     )

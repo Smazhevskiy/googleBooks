@@ -1,0 +1,29 @@
+.wrapper {
+	background: #bd6868;
+	width: 100%;
+	max-height: max-content;
+	display: flex;
+	flex-wrap: wrap;
+}
+
+.imgWrapper {
+	background: #ccb8b8;
+	text-align: center;
+	padding: 5vmin;
+	max-width: 50%;
+}
+
+.imgWrapper img {
+	height: 400px;
+}
+
+.descriptionInfo {
+	background-color: #3f90de;
+	margin: 30px 50px;
+	height: max-content;
+	padding: 5vmin;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-around;
+	max-width: 50%;
+}

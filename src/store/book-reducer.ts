@@ -9,8 +9,7 @@ enum PACKS_ACTIONS_TYPES {
     SET_Q_VALUE = 'BOOKS/SET_Q_VALUE',
     SET_FILTER = 'BOOKS/SET_FILTER',
     SET_ORDER_BY = 'BOOKS/SET_ORDER_BY',
-    SET_CATEGORIES = 'SET_CATEGORIES',
-
+    SET_CATEGORIES = 'BOOK/SET_CATEGORIES',
 }
 
 export type BooksActionsTypes =
@@ -21,14 +20,17 @@ export type BooksActionsTypes =
     | ReturnType<typeof setCategories>
 
 
+
 export type ItemsType = [{
     id: string
     volumeInfo: {
         authors: string []
         categories: string [],
         imageLinks: {
-            smallThumbnail: string | null | undefined,
-            thumbnail?: string | null | undefined
+            smallThumbnail?: string | undefined,
+            thumbnail?: string |  undefined
+            medium?: string |  undefined
+            large?: string |  undefined
         },
         title?: string,
     }
@@ -54,6 +56,8 @@ export const initialState: BooksInitialStateType = {
             imageLinks: {
                 smallThumbnail: '',
                 thumbnail: '',
+                medium: '',
+                large: ''
             },
             categories: [],
             authors: [],
@@ -65,7 +69,7 @@ export const initialState: BooksInitialStateType = {
     key: 'AIzaSyA1vOYaRAU3dpj48FLXOrHd7u2FhwO5qfE',
     filter: 'full',
     orderBy: 'relevance',
-    categories: 'all'
+    categories: 'all',
 }
 
 
@@ -79,9 +83,10 @@ export const booksReducer = (state: BooksInitialStateType = initialState, action
             return {...state, filter: action.filter}
         case PACKS_ACTIONS_TYPES.SET_ORDER_BY:
             return {...state, orderBy: action.orderBy}
+//TODO
         // case PACKS_ACTIONS_TYPES.SET_CATEGORIES:
         // return {...state, items:state.items.filter(el=> el.volumeInfo.authors.join(', ') === action.categories)}
-            // items: state.items.filter((el) => el.volumeInfo.categories[0] === action.categories)
+        // items: state.items.filter((el) => el.volumeInfo.categories[0] === action.categories)
 
         default:
             return state
@@ -116,6 +121,7 @@ export const setCategories = (categories: string) => ({
 } as const)
 
 
+
 //THUNKS
 export const fetchBooks = (payload?: GetBooksQueryParams) => async (dispatch: AppDispatch, getState: () => RootState) => {
     const books = getState().books
@@ -123,8 +129,8 @@ export const fetchBooks = (payload?: GetBooksQueryParams) => async (dispatch: Ap
         dispatch(setAppIsLoading(true))
         const response = await bookApi.getBooks({
             q: books.q,
-            key: books.key || null,
-            orderBy: books.orderBy
+            // key: books.key || null,
+            orderBy: books.orderBy,
         })
         if (!response.data.totalItems) dispatch(setAppInfo('not found anything'))
         dispatch(setBooks(response.data))
@@ -134,4 +140,5 @@ export const fetchBooks = (payload?: GetBooksQueryParams) => async (dispatch: Ap
         dispatch(setAppIsLoading(false))
     }
 }
+
 

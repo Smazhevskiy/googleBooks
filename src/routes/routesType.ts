@@ -6,7 +6,7 @@ import {ErrorPage} from '../pages/error/ErrorPage'
 
 export enum PATH {
     BOOKSPAGE = '/',
-    BOOK = '/books/:id?',
+    BOOK = '/:id?',
     EMPTY = '',
     ERROR = '/404',
 }

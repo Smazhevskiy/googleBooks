@@ -8,6 +8,7 @@ export type GetBooksQueryParams = {
     key?: string | null
     filter?: string | null
     orderBy?: string | null
+    id?:string
 }
 
 export type BookResponse = {
