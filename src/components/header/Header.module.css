@@ -14,30 +14,15 @@
 	z-index: 1;
 }
 
-.optionsBox {
-	font-size: 1.2rem;
-	padding: 10px;
-	font-weight: bold;
-}
-
-.optionsBox select {
-	width: 120px;
-	height: 30px;
-	border: 1px solid #999;
-	font-size: 18px;
-	color: #204862;
-	background-color: #eee;
-	border-radius: 5px;
-}
-
 .searchBox input {
-	width: 360px;
+	width: 560px;
 	padding: 10px 50px 10px 25px;
 	border-radius: 5px;
 	border: none;
 	outline: none;
 	margin: 20px 0;
 	font-size: 1.2rem;
+
 }
 
 
@@ -54,8 +39,8 @@
 	width: 28px;
 }
 
-.totalItems {
-	color: #3d3939;
-	padding: 10px 0;
+@media (max-width: 760px) {
+	.searchBox input {
+		width: 290px;
+	}
 }
-

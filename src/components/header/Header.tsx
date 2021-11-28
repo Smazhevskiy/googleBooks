@@ -5,7 +5,7 @@ import {useDispatch} from 'react-redux'
 import {fetchBooks, setFilter, setOrderBy, setQValueSearch} from '../../store/book-reducer'
 import {useTypedSelector} from '../../hooks/typedSelector'
 import {setAppInfo} from '../../store/app-reducer'
-import {Select} from '../../components/Select/Select'
+import {OptionsBlock} from '../optionsBlock/OptionsBlockProps'
 
 
 export const categoryOptions = ['all', 'art', 'biography', 'computers', 'history', 'medical', 'poetry']
@@ -19,8 +19,7 @@ export const Header = () => {
         q,
         filter,
         orderBy,
-        totalItems,
-        startIndex
+        startIndex,
     } = useTypedSelector(state => state.books)
 
 
@@ -77,14 +76,10 @@ export const Header = () => {
                 />
             </div>
 
-            <div className={s.optionsBox}>
-                {totalItems > 0 && <h3 className={s.totalItems}>Found {totalItems} results </h3>}
-                <span style={{margin: '0px 10px'}}>categories</span>
-                <Select options={categoryOptions} onChangeOption={changeCategoryHandler}/>
-
-                <span style={{margin: '0px 10px'}}>sorting by</span>
-                <Select options={sortByOptions} onChangeOption={changeSortHandler}/>
-            </div>
+            <OptionsBlock
+                changeCategories={changeCategoryHandler}
+                changeSortHandler={changeSortHandler}
+            />
         </div>
     )
 }

@@ -1,6 +1,6 @@
 import React, {FC} from 'react'
 import s from './BooksPage.module.css'
-import {PreviewBook} from '../previewBook/PreviewBook'
+import {PreviewBook} from '../../components/previewBook/PreviewBook'
 import {useTypedSelector} from '../../hooks/typedSelector'
 import {ItemsType, setStartPaginationIndex} from '../../store/book-reducer'
 import {useDispatch} from 'react-redux'
@@ -21,9 +21,9 @@ export const BooksPage: FC = () => {
     return (
         <div className={s.wrapper}>
             <div className={s.mappedBooks}>
-                {q && items.map((el: ItemsType | any) => {
+                {q && items.map((el: ItemsType | any , index) => {
                     return <PreviewBook
-                        key={el.id}
+                        key={index}
                         image={el.volumeInfo.imageLinks?.smallThumbnail}
                         category={el.volumeInfo.categories}
                         title={el.volumeInfo.title}

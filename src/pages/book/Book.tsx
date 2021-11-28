@@ -11,21 +11,32 @@ export const Book = () => {
 
     let currBook: any = items.find((el) => el.id === id)
 
+
+    function imgSrc() {
+        if (currBook.volumeInfo.imageLinks?.large) return currBook.volumeInfo.imageLinks?.large
+        if (currBook.volumeInfo.imageLinks?.medium) return currBook.volumeInfo.imageLinks?.medium
+        if (currBook.volumeInfo.imageLinks?.thumbnail) return currBook.volumeInfo.imageLinks?.thumbnail
+        return 'https://yt3.ggpht.com/a/AATXAJyI5u3cCKLCv3wEIU23z1oC_Ww88RGbXbCu_HWI5w=s900-c-k-c0xffffffff-no-rj-mo'
+    }
+
     if (!currBook) return <Redirect to={PATH.BOOKSPAGE}/>
 
     return (
         <div className={s.wrapper}>
-            <div className={s.imgWrapper}>
-                <img
-                    src={currBook ? currBook.volumeInfo.imageLinks.thumbnail : 'https://cdn.pixabay.com/photo/2018/06/24/23/13/book-3495713_1280.jpg'}
-                    alt=""/>
-            </div>
-            <div className={s.descriptionInfo}>
-                <div>{currBook ? currBook.volumeInfo.categories : 'some categories'}</div>
-                <div>{currBook ? currBook.volumeInfo.title : 'some title'}</div>
-                <div>{currBook ? currBook.volumeInfo.authors : 'some authors'}</div>
-                <div>{currBook ? currBook.volumeInfo.description : 'dff'}</div>
+            <div className={s.container}>
+                <div className={s.imgWrapper}>
+                    <img
+                        src={imgSrc()}
+                        alt=""/>
+                </div>
+                <div className={s.descriptionBlock}>
+                    <div className={s.categories}>{currBook ? currBook.volumeInfo.categories : 'some categories'}</div>
+                    <div className={s.title}>{currBook ? currBook.volumeInfo.title : 'some title'}</div>
+                    <div className={s.authors}>{currBook ? currBook.volumeInfo.authors : 'some authors'}</div>
+                    <div className={s.description}>{currBook ? currBook.volumeInfo.description : 'dff'}</div>
+                </div>
             </div>
         </div>
     )
 }
+
