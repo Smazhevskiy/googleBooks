@@ -27,7 +27,6 @@
 
 .descriptionBlock {
 	font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
-	position: relative;
 	text-align: left;
 	background: #f6f3f3;
 	display: flex;
@@ -57,7 +56,6 @@
 }
 
 .description {
-	font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
 	box-sizing: content-box;
 	border: 1px solid #d7dadc;
 	padding: 0 10px 5px 0;
@@ -75,7 +73,6 @@
 		text-align: center;
 		width: 100vw;
 		min-width: 100vw;
-		height: auto;
 		padding: 0 ;
 		object-fit: cover;
 		object-position: bottom;;

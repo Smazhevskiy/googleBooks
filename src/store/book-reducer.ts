@@ -91,9 +91,9 @@ export const booksReducer = (state: BooksInitialStateType = initialState, action
         case PACKS_ACTIONS_TYPES.SET_START_PAGINATION_INDEX:
             return {...state, startIndex: action.index}
         case PACKS_ACTIONS_TYPES.SET_CATEGORIES:
-            return {...state, categories:action.categories}
-        // items: state.items.filter((el) => el.volumeInfo.categories[0] === action.categories)
 
+
+        // eslint-disable-next-line no-fallthrough
         default:
             return state
     }

@@ -11,6 +11,7 @@ const appStyle = {
     height: 'auto',
     opacity: '0.9',
     backgroundSize: 'cover',
+    minHeight:'100vh',
 }
 
 function App() {
